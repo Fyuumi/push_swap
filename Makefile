@@ -6,13 +6,13 @@
 #    By: opaulman <opaulman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/29 12:23:54 by opaulman          #+#    #+#              #
-#    Updated: 2025/08/29 12:34:36 by opaulman         ###   ########.fr        #
+#    Updated: 2025/10/03 15:48:16 by opaulman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = libftgnl.a
+NAME = pushswap.a
 
-SRC = ft_push_swap.c
+SRC = push_swap.c createstack.c erroe_check.c radix.c rs_etc.c
 OBJ = $(SRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -40,4 +40,4 @@ re:
 	$(MAKE) fclean
 	$(MAKE) all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re
