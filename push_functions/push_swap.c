@@ -6,7 +6,7 @@
 /*   By: opaulman <opaulman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:04:44 by opaulman          #+#    #+#             */
-/*   Updated: 2025/10/03 15:32:35 by opaulman         ###   ########.fr       */
+/*   Updated: 2025/10/05 17:29:49 by opaulman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,17 @@ int	main(int argc, char **argv)
 	t_stack_node	*stack_a;
 	t_stack_node	*stack_b;
 	int				i;
+	int				*mappedstring;
 
 	stack_a = NULL;
 	stack_b = NULL;
 	i = error_check(argv, argc - 1);
 	if (i > 0) // i == 1 is error
 		return (0);
+	mappedstring = mapping(argv, lenofstring(argv));
+		// Zahlen werden gemapped 0,1,2,3,4...
+	argv = arrtobin(mappedstring, argv);            
+		// gemapped Zahlen werden in Binaer umgewandelt
 	*stack_a = stackcreate(argv);
 	*stack_b = stackcreate(NULL);
 	printStack(stack_a);
