@@ -6,13 +6,14 @@
 #    By: opaulman <opaulman@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/29 12:23:54 by opaulman          #+#    #+#              #
-#    Updated: 2025/10/03 15:48:16 by opaulman         ###   ########.fr        #
+#    Updated: 2025/10/20 14:33:52 by opaulman         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = pushswap.a
 
-SRC = push_swap.c createstack.c erroe_check.c radix.c rs_etc.c
+SRC = push_swap.c createstack.c error_check.c radix.c operations.c chartobinary.c \
+checksorted.c mapping.c smalldigits.c
 OBJ = $(SRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
