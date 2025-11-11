@@ -6,22 +6,13 @@
 /*   By: opaulman <opaulman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 15:59:29 by opaulman          #+#    #+#             */
-/*   Updated: 2025/10/21 16:28:02 by opaulman         ###   ########.fr       */
+/*   Updated: 2025/10/26 19:52:49 by opaulman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push.h"
 
-int	lenofstring(char **string)
-{
-	int	i;
-
-	i = 0;
-	while (string[i] != NULL)
-		i++;
-	return (i);
-}
-int	searchforlowest(int *intarray, char *prozessflag)
+int	lowest(int *intarray, char *prozessflag, int size)
 {
 	int	i;
 	int	lowest;
@@ -29,10 +20,10 @@ int	searchforlowest(int *intarray, char *prozessflag)
 
 	positionofint = 0;
 	i = 0;
-	lowest = intarray[i];
-	while (intarray[i])
+	lowest = 2147483647;
+	while (size > i)
 	{
-		if ((intarray[i] < lowest) && (prozessflag[i] = 0))
+		if ((intarray[i] < lowest) && (prozessflag[i] != '1'))
 		{
 			lowest = intarray[i];
 			positionofint = i;
@@ -48,21 +39,22 @@ int	mapping(char **string, int size, int *intarray) // sizeofstring
 	char *prozessflag;
 
 	digit = 0;
-	while (string[digit])
+	while (string[digit] != NULL)
 	{
 		intarray[digit] = ft_atoi(string[digit]);
 		digit++;
 	}
-	prozessflag = ft_calloc(size + 1, sizeof(char));
+	prozessflag = ft_calloc(size, sizeof(char));
 	if (!prozessflag)
 		return (1);
 	digit = 0;
 	while (digit < size)
 	{
-		positionofint = searchforlowest(intarray, prozessflag);
-		intarray[positionofint] = digit;
-		prozessflag[positionofint] = 1;
+		positionofint = lowest(intarray, prozessflag, size);
+		intarray[positionofint] = digit + 1;
+		prozessflag[positionofint] = '1';
 		digit++;
 	}
+	// ft_printf("\nflag: %s\n", prozessflag);
 	return (free(prozessflag), 0);
 }

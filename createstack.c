@@ -6,28 +6,31 @@
 /*   By: opaulman <opaulman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 18:51:12 by opaulman          #+#    #+#             */
-/*   Updated: 2025/10/21 16:01:11 by opaulman         ###   ########.fr       */
+/*   Updated: 2025/10/25 17:19:55 by opaulman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push.h"
 
-void	printStack(t_stack_node *stack_b)
+void	printstack(t_stack_node *stack)
 {
-	while (stack_b)
+	t_stack_node	*temp;
+	int				i;
+
+	i = 0;
+	temp = stack;
+	while (temp)
 	{
-		printf("\n%d\n", stack_b->content);
-		stack_b = stack_b->next;
-		stack_b = stack_b->next;
-		stack_b = stack_b->prev;
+		i++;
+		ft_printf("%d\t", temp->content);
+		temp = temp->next;
+		if (i == 0)
+		{
+			ft_printf("\n");
+			i = 0;
+		}
 	}
-	// stack_b = stack_b->prev;
-	// while (stack_b)
-	// {
-	// 	printf("\n%s\n", stack_b->content);
-	// 	stack_b = stack_b->prev;
-	// }
-	printf("NULL\n");
+	ft_printf("\n");
 }
 t_stack_node	*createnode(int content)
 {
@@ -36,7 +39,10 @@ t_stack_node	*createnode(int content)
 	node = NULL;
 	node = malloc(sizeof(t_stack_node));
 	if (!node)
-		return (NULL);
+	{
+		ft_printf("\nmallocerror!!!!\n");
+		exit(1);
+	}
 	node->content = content;
 	node->next = NULL;
 	node->prev = NULL;
@@ -48,7 +54,7 @@ void	backnode(t_stack_node *stack_a, int content)
 	t_stack_node	*new;
 
 	last = stack_a;
-	while (last->next) // last stuff
+	while (last->next) // last node
 		last = last->next;
 	new = createnode(content);
 	last->next = new;
@@ -61,20 +67,22 @@ void	frontnode(t_stack_node **stack_a, int content)
 	t_stack_node	*first;
 
 	first = createnode(content);
-	first->next = *stack_a;
+	if (*stack_a)
+	{
+		first->next = *stack_a;
+		(*stack_a)->prev = first;
+	}
 	*stack_a = first;
 }
-t_stack_node	*stackcreate(int *arr, t_stack_node **a)
+t_stack_node	*stackcreate(int *arr, t_stack_node **a, int size)
 {
 	int i;
 
 	i = 0;
-	if (arr == NULL)
-		return (*a);
 	*a = createnode(arr[i++]); // headcreate
-	while (arr[i])
-	{
-		backnode(*a, arr[i++]);
-	}
+	while (i < size)
+		backnode(*a, arr[i++]); // appendnodes
+	// ft_printf("\nstackcheck:\n");
+	// printstack(*a);
 	return (*a);
 }

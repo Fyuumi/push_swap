@@ -6,64 +6,85 @@
 /*   By: opaulman <opaulman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:04:44 by opaulman          #+#    #+#             */
-/*   Updated: 2025/10/21 16:37:41 by opaulman         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:57:29 by opaulman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push.h"
 
-// real main
+void	printarray(int *arr, int size)
+{
+	int	i;
 
+	i = 0;
+	while (i < size)
+	{
+		ft_printf("%d\n", arr[i]);
+		i++;
+	}
+}
+char	**split(int argc, char **argv, int **digits)
+{
+	char	**newargv;
+	int		i;
+
+	i = 0;
+	newargv = NULL;
+	if (argc < 2)
+		exit(ft_printf("ERROR\n"));
+	if (argc == 2)
+	{
+		newargv = ft_split(argv[1], ' '); // Beispiel : "123 134 1321"
+		if (!newargv)
+			exit(ft_printf("ERROR\n"));
+		i = count_split(newargv);
+	}
+	else
+	{
+		newargv = argv + 1;
+		i = argc - 1;
+	}
+	*digits = malloc((i + 1) * sizeof(int));
+	if (!*digits)
+		exit(ft_printf("ERROR\n"));
+	return (newargv);
+}
+
+int	count_split(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr && arr[i])
+		i++;
+	return (i);
+}
 int	main(int argc, char **argv)
 {
-	t_stack_node	**a;
-	t_stack_node	**b;
-	bool			i;
-	int				digits[argc];
+	t_stack_node	*a;
+	t_stack_node	*b;
+	int				*digits;
+	char			**args;
+	int				size;
 
 	a = NULL;
 	b = NULL;
-	i = error_check(argv, argc - 1);
-	if (i > 0) // i == 1 is error
+	args = split(argc, argv, &digits);
+	if (error_check(args) == 1) // special cases
 		return (1);
-	i = mapping(argv, lenofstring(argv), digits); // mapped 0,1,2,3,4...
-	if (i > 0)                                    // i == 1 is error
+	size = count_split(args);
+	if (mapping(args, size, digits) > 0) // mapped 0,1,2,3,4...
 		return (1);
-	if (argc < 7)
-		return (smalldigits(digits, argc - 1), 1);
-	// argv = arrtobin(digits, argv + 1); // mapped to Binaer
-	*a = stackcreate(digits, a);
-	*b = stackcreate(NULL, b);
-	printStack(*a);
+	if (size < 6)
+		smalldigits(digits, size); // for 2 to 5 digits exit included
+	stackcreate(digits, &a, size); // creates stack a
+	algorithm(&a, &b, size);       // in radix.c
+	ft_printf("\nstacka\n");
+	printstack(a);
+	ft_printf("stackb:\n");
+	printstack(b);
+	if (size == 2)
+		free(args);
+	free(digits);
 	return (0);
 }
-
-// test main
-
-// int	main(void)
-// {
-// 	char **string;
-// 	int i;
-// 	t_stack_node *stack_a;
-
-// 	string = malloc(sizeof(char *) * 4);
-// 	if (!string)
-// 		return (1);
-// 	i = 0;
-// 	while (i < 3)
-// 	{
-// 		string[i] = "i";
-// 		i++;
-// 	}
-// 	string[0] = "nop";
-// 	string[2] = "bipp";
-// 	string[i] = NULL;
-// 	i = 0;
-// 	while (i < 3)
-// 	{
-// 		printf("%s", string[i]);
-// 		i++;
-// 	}
-// 	*stack_a = stackcreate(string);
-// 	printStack(stack_a);
-// }

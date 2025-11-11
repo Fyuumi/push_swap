@@ -6,7 +6,7 @@
 /*   By: opaulman <opaulman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/06 13:55:16 by opaulman          #+#    #+#             */
-/*   Updated: 2025/10/20 15:13:16 by opaulman         ###   ########.fr       */
+/*   Updated: 2025/11/10 13:42:55 by opaulman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,17 @@ int	isdigitasci(char **s) // output == 1 if just digits
 	int i;
 	int n;
 
-	i = 1;
+	i = 0;
 	n = 0;
 	while (s[i])
 	{
 		while (s[i][n])
 		{
 			if (!(s[i][n] >= '0' && s[i][n] <= '9'))
-				return (-1);
+				if (!(s[i][n] == '-'))
+				{
+					return (-1);
+				}
 			n++;
 		}
 		n = 0;
@@ -65,30 +68,23 @@ int	allready_sorted(char **arr)
 	i = 0;
 	while (arr[i + 1] != NULL)
 	{
-		if ((atoi(arr[i]) > (atoi(arr[i + 1]))))
+		if (ft_atoi(arr[i]) == 0)
+			exit(ft_printf("ERROR"));
+		if ((ft_atoi(arr[i]) > (ft_atoi(arr[i + 1]))))
+		{
 			return (1); // not sorted
+		}
 		i++;
 	}
 	return (-1); // sorted allready
 }
-int	error_check(char **arr, int numarguments)
-
+int	error_check(char **arr)
 {
-	int i;
-
-	i = 0;
-	if (numarguments == 0 || (numarguments == 1 && !arr[1]))
-		return (printf("ERROR"), 1);
-	if (numarguments == 1)
-		arr = ft_split(arr[1], ' '); // Beispiel : "123 134 1321"
-	printf("Arguments: %d\n", (numarguments));
-	i = isdigitasci(arr); // i == 1 if just digits
-	printf("1/-1: %i\n", i);
-	if (i < 0)
-		return (printf("ERROR"), 1);
+	if (isdigitasci(arr + 1) < 0)
+		return (ft_printf("ERROR1\n"), 1);
 	if (duplicate_check(arr) < 0)
-		return (printf("Duplicate"), 1);
+		return (ft_printf("ERROR2\n"), 1);
 	if (allready_sorted(arr) < 0)
-		return (printf("sorted"), 1);
+		return (ft_printf("ERROR3\n"), 1);
 	return (0);
 }
